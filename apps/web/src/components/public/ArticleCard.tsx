@@ -10,13 +10,13 @@ export function ArticleCard({ article, locale, dateFmt }: { article: ArticleWith
   if (!t) return null;
   const cat = article.category ? pickTranslation(article.category.translations, locale)?.name : null;
   return (
-    <Link href={`/articles/${article.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:-translate-y-0.5 hover:shadow-md">
+    <Link href={`/articles/${article.slug}`} className="card group flex flex-col overflow-hidden p-0 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/5">
       <div className="aspect-[16/9] w-full overflow-hidden bg-brand-50">
         {article.coverMedia ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={article.coverMedia.url} alt={article.coverMedia.alt ?? t.title} className="h-full w-full object-cover transition group-hover:scale-[1.02]" loading="lazy" />
+          <img src={article.coverMedia.url} alt={article.coverMedia.alt ?? t.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" loading="lazy" />
         ) : (
-          <div className="grid h-full w-full place-items-center text-4xl font-bold text-brand-200">VG</div>
+          <div className="grid h-full w-full place-items-center bg-gradient-to-br from-brand-50 to-amber-50 font-serif text-4xl font-bold text-brand-200">VG</div>
         )}
       </div>
       <div className="flex flex-1 flex-col p-5">
@@ -24,7 +24,7 @@ export function ArticleCard({ article, locale, dateFmt }: { article: ArticleWith
           {cat && <span className="rounded-full bg-brand-50 px-2 py-0.5 font-medium text-brand-700">{cat}</span>}
           {article.publishedAt && <time dateTime={article.publishedAt.toISOString()}>{dateFmt.format(article.publishedAt)}</time>}
         </div>
-        <h3 className="mt-2 text-lg font-semibold leading-snug text-stone-900 group-hover:text-brand-700">{t.title}</h3>
+        <h3 className="mt-3 font-serif text-xl font-semibold leading-snug text-stone-900 group-hover:text-brand-700">{t.title}</h3>
         <p className="mt-2 line-clamp-3 text-sm text-stone-600">{t.excerpt || stripHtml(t.body, 180)}</p>
       </div>
     </Link>

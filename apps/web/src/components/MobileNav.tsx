@@ -8,7 +8,7 @@ export function MobileNav({ items, menuLabel, closeLabel }: { items: { href: str
   const [open, setOpen] = useState(false);
   return (
     <div className="lg:hidden">
-      <button type="button" aria-label={open ? closeLabel : menuLabel} aria-expanded={open} onClick={() => setOpen((o) => !o)} className="rounded-md p-2 text-stone-700 hover:bg-stone-100">
+      <button type="button" aria-label={open ? closeLabel : menuLabel} aria-expanded={open} onClick={() => setOpen((o) => !o)} className="grid h-10 w-10 place-items-center rounded-full border border-stone-200 bg-white text-stone-700 transition hover:border-stone-300 hover:text-stone-900">
         {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
       {open && (

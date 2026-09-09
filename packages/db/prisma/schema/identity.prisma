@@ -1,0 +1,116 @@
+// ---------------------------------------------------------------------------
+// Domain: Identity (migration 001)
+// Internal PK = UUID. `publicId` = 12-digit numeric, collision-safe random,
+// shown to humans (login, support, tickets). Never expose UUIDs in the UI.
+// ---------------------------------------------------------------------------
+
+enum UserStatus {
+  PENDING_ACTIVATION // account created, email/mobile not yet verified
+  ACTIVE
+  DISABLED // temporarily disabled by admin, can be re-enabled
+  BANNED // permanently blocked by admin
+  DELETED // anonymized; transactional records preserved
+}
+
+enum UserKind {
+  APPLICANT // public site users: attendees, customers, competitors
+  STAFF // foundation staff, volunteers, judges, reviewers, trustees, admins
+}
+
+model User {
+  id        String     @id @default(uuid()) @db.Uuid
+  publicId  String     @unique @db.VarChar(12)
+  kind      UserKind   @default(APPLICANT)
+  status    UserStatus @default(PENDING_ACTIVATION)
+
+  email           String    @unique @db.VarChar(255) // always stored lowercase
+  emailVerifiedAt DateTime?
+  phone           String?   @db.VarChar(20)
+  phoneCountry    String?   @db.VarChar(4)
+  phoneVerifiedAt DateTime?
+  whatsapp        String?   @db.VarChar(20)
+
+  firstName String  @db.VarChar(100)
+  lastName  String? @db.VarChar(100)
+  locale    Locale  @default(en)
+
+  passwordHash       String?
+  mustChangePassword Boolean   @default(false)
+  passwordChangedAt  DateTime?
+  failedLoginCount   Int       @default(0)
+  lockedUntil        DateTime?
+  lastLoginAt        DateTime?
+
+  statusReason    String?
+  statusChangedAt DateTime?
+  anonymizedAt    DateTime?
+
+  createdById String? @db.Uuid
+  createdBy   User?   @relation("UserCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  created     User[]  @relation("UserCreatedBy")
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  sessions  Session[]
+  otpCodes  OtpCode[]
+  userRoles UserRole[]
+  auditLogs AuditLog[] @relation("AuditActor")
+
+  @@index([status])
+  @@index([kind])
+  @@index([createdAt])
+  @@map("users")
+}
+
+model Session {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String   @unique
+  ip         String?  @db.VarChar(64)
+  userAgent  String?
+  device     String?  @db.VarChar(64) // web | mobile | volunteer
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  lastSeenAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+enum OtpPurpose {
+  ACTIVATION
+  LOGIN
+  EMAIL_VERIFY
+  PHONE_VERIFY
+  PASSWORD_RESET
+}
+
+enum OtpChannel {
+  EMAIL
+  SMS
+  WHATSAPP
+}
+
+model OtpCode {
+  id          String     @id @default(uuid()) @db.Uuid
+  userId      String     @db.Uuid
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose     OtpPurpose
+  channel     OtpChannel @default(EMAIL)
+  destination String     @db.VarChar(255)
+  codeHash    String
+  attempts    Int        @default(0)
+  maxAttempts Int        @default(5)
+  expiresAt   DateTime
+  consumedAt  DateTime?
+  createdAt   DateTime   @default(now())
+
+  @@index([userId, purpose])
+  @@index([expiresAt])
+  @@map("otp_codes")
+}

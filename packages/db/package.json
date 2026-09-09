@@ -1,0 +1,35 @@
+{
+  "name": "@vgmf/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "generate": "prisma generate --schema prisma/schema",
+    "migrate:dev": "dotenv -e ../../.env -- prisma migrate dev --schema prisma/schema",
+    "migrate:deploy": "dotenv -e ../../.env -- prisma migrate deploy --schema prisma/schema",
+    "migrate:status": "dotenv -e ../../.env -- prisma migrate status --schema prisma/schema",
+    "studio": "dotenv -e ../../.env -- prisma studio --schema prisma/schema",
+    "seed": "dotenv -e ../../.env -- tsx prisma/seed.ts",
+    "build": "prisma generate --schema prisma/schema",
+    "lint": "echo 'no lint'",
+    "typecheck": "tsc --noEmit",
+    "test": "echo 'no tests'"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "@types/node": "^22.20.1",
+    "dotenv-cli": "^8",
+    "prisma": "^6.19.3",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "vgmf-platform",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vaidya Gogate Memorial Foundation unified platform (web, portals, API, mobile)",
+  "engines": { "node": ">=20 <25", "pnpm": ">=9" },
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "dev": "pnpm --filter @vgmf/web dev",
+    "build": "pnpm -r --filter './packages/**' build && pnpm --filter @vgmf/web build",
+    "start": "pnpm --filter @vgmf/web start",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "db:generate": "pnpm --filter @vgmf/db generate",
+    "db:migrate": "pnpm --filter @vgmf/db migrate:dev",
+    "db:deploy": "pnpm --filter @vgmf/db migrate:deploy",
+    "db:seed": "pnpm --filter @vgmf/db seed",
+    "db:studio": "pnpm --filter @vgmf/db studio"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

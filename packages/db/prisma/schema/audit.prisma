@@ -1,0 +1,36 @@
+// ---------------------------------------------------------------------------
+// Domain: Audit / Global Timeline (migration 004)
+// Append-only. Every important mutation writes one row. Rows referencing an
+// entity (entityType + entityId) form that entity's immutable history which
+// admins can inspect (application timeline, order timeline, user timeline).
+// ---------------------------------------------------------------------------
+
+enum AuditActorType {
+  USER
+  SYSTEM
+  API_KEY
+  WEBHOOK
+}
+
+model AuditLog {
+  id          BigInt         @id @default(autoincrement())
+  occurredAt  DateTime       @default(now())
+  actorType   AuditActorType @default(USER)
+  actorId     String?        @db.Uuid
+  actor       User?          @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  actorLabel  String?        @db.VarChar(200) // denormalised name/public id at time of action
+  module      String         @db.VarChar(64)
+  action      String         @db.VarChar(96) // e.g. user.created, user.banned, role.permissions_updated
+  entityType  String?        @db.VarChar(64)
+  entityId    String?        @db.VarChar(64)
+  summary     String
+  metadata    Json?
+  ip          String?        @db.VarChar(64)
+  userAgent   String?
+  requestId   String?        @db.VarChar(64)
+
+  @@index([entityType, entityId, occurredAt])
+  @@index([actorId, occurredAt])
+  @@index([module, occurredAt])
+  @@map("audit_logs")
+}

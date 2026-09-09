@@ -16,7 +16,26 @@
     "search": "Search",
     "actions": "Actions",
     "status": "Status",
-    "comingSoon": "Coming soon"
+    "comingSoon": "Coming soon",
+    "readMore": "Read more",
+    "viewAll": "View all",
+    "backTo": "Back to {section}",
+    "publishedOn": "Published {date}",
+    "by": "By {name}",
+    "menu": "Menu",
+    "close": "Close",
+    "noResults": "Nothing to show yet.",
+    "page": "Page {page} of {pages}",
+    "previous": "Previous",
+    "next": "Next",
+    "required": "Required",
+    "phone": "Phone",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "address": "Address",
+    "timings": "Timings",
+    "openInMaps": "Open in Google Maps",
+    "learnMore": "Learn more"
   },
   "nav": {
     "home": "Home",
@@ -42,7 +61,15 @@
       "shopDesc": "Books and study material — ship to your door or collect from our clinic.",
       "clinic": "Our Clinic",
       "clinicDesc": "Doctor profiles, timings and appointments."
-    }
+    },
+    "announcements": "Announcements",
+    "latestArticles": "Latest articles",
+    "noticeBoard": "Notice board",
+    "ourDoctors": "Our doctors",
+    "upcomingEvents": "Upcoming events",
+    "eventsComing": "Event schedules will be published here. Meanwhile, follow our announcements.",
+    "aboutTeaser": "Carrying forward the legacy of Vaidya Gogate — Ayurvedic clinical care, scientific seminars, fellowships for young doctors, and publications for practitioners and families.",
+    "aboutCta": "About the foundation"
   },
   "auth": {
     "loginTitle": "Sign in to your account",
@@ -97,5 +124,88 @@
   },
   "footer": {
     "rights": "All rights reserved."
+  },
+  "articles": {
+    "title": "Articles",
+    "intro": "Articles, case discussions and health guidance from our doctors.",
+    "allCategories": "All",
+    "inCategory": "Category: {name}",
+    "related": "More articles",
+    "share": "Share",
+    "views": "{count} views",
+    "notFound": "Article not found"
+  },
+  "about": {
+    "title": "About us",
+    "intro": "The Vaidya Gogate Memorial Foundation continues a family tradition of Ayurvedic practice, teaching and service.",
+    "generations": "Our generations",
+    "generationsIntro": "Four generations of Vaidyas, one commitment to patients.",
+    "mission": "Our mission",
+    "missionText": "To advance Ayurvedic clinical practice through education, research seminars, fellowships and accessible publications, and to serve patients with compassion.",
+    "present": "present"
+  },
+  "clinic": {
+    "title": "Our clinic",
+    "intro": "Consultations, timings and how to reach us.",
+    "doctors": "Doctors",
+    "noDoctors": "Doctor profiles will appear here soon.",
+    "registrationNo": "Reg. no.",
+    "consultation": "Consultation timings",
+    "primary": "Main clinic",
+    "pickupNote": "Shop orders can be collected from this clinic."
+  },
+  "contact": {
+    "title": "Contact us",
+    "intro": "Send us a message and we will reply by email.",
+    "name": "Your name",
+    "email": "Email",
+    "phone": "Mobile number (optional)",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send message",
+    "sent": "Thank you! Your message has been received. We usually reply within 2 working days.",
+    "error": "Could not send your message. Please try again.",
+    "tooMany": "Too many messages sent recently. Please try again later.",
+    "reachUs": "Reach us",
+    "office": "Foundation office"
+  },
+  "events": {
+    "title": "Events & seminars",
+    "intro": "National seminars, workshops, case-presentation competitions and public health camps.",
+    "comingSoon": "Event registration opens here soon. Announcements will be posted on the home page and sent to registered members.",
+    "register": "Create an account",
+    "registerHelp": "Create your free account now so you are ready when registration opens.",
+    "past": "Past events"
+  },
+  "fellowship": {
+    "title": "Fellowship",
+    "intro": "The VGMF fellowship supports young Ayurvedic doctors with mentoring and funding for clinical research.",
+    "comingSoon": "Fellowship applications will open here. Watch the announcements for the next cycle.",
+    "how": "How it works",
+    "step1": "Apply online with your proposal and documents",
+    "step2": "Reviewers evaluate applications on merit",
+    "step3": "Trustees confirm the final selection",
+    "step4": "Fellows present at the national seminar"
+  },
+  "shop": {
+    "title": "Publications & shop",
+    "intro": "Books, study material and clinic products — shipped to your door or collected from our clinic.",
+    "comingSoon": "The online shop is opening soon. Books are also available at seminars and at the clinic.",
+    "deliveryTitle": "Delivery",
+    "deliveryText": "Courier delivery across India with pincode-based estimates, or free collection from our clinic.",
+    "paymentsTitle": "Secure payments",
+    "paymentsText": "UPI, cards, net banking and wallets via Razorpay."
+  },
+  "notices": {
+    "title": "Notices & announcements",
+    "intro": "Official notices, circulars and announcements from the foundation.",
+    "validUntil": "Valid until {date}",
+    "download": "Download"
+  },
+  "pages": {
+    "notFound": "Page not found"
+  },
+  "seo": {
+    "defaultDescription": "Vaidya Gogate Memorial Foundation — Ayurvedic clinic, national seminars, fellowships and publications."
   }
 }

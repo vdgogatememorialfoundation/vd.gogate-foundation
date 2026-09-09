@@ -67,3 +67,26 @@ body {
 .rich-text a {
   @apply text-brand-700 underline;
 }
+
+/* Sanitized editor HTML (articles, pages, profiles) */
+.rich-text {
+  @apply text-stone-800 leading-relaxed;
+}
+.rich-text h2 { @apply mt-8 mb-3 text-2xl font-semibold; }
+.rich-text h3 { @apply mt-6 mb-2 text-xl font-semibold; }
+.rich-text p { @apply my-4; }
+.rich-text a { @apply text-brand-700 underline; }
+.rich-text ul { @apply my-4 list-disc pl-6; }
+.rich-text ol { @apply my-4 list-decimal pl-6; }
+.rich-text blockquote { @apply my-6 border-l-4 border-brand-200 pl-4 italic text-stone-600; }
+.rich-text img { @apply my-6 max-h-[32rem] w-full rounded-xl object-cover; }
+.rich-text figure { @apply my-6; }
+.rich-text figure img { @apply my-0; }
+.rich-text figcaption { @apply mt-2 text-center text-sm text-stone-500; }
+.rich-text table { @apply my-6 w-full border-collapse text-sm; }
+.rich-text td, .rich-text th { @apply border border-stone-200 px-3 py-2; }
+.rich-text iframe { @apply my-6 aspect-video w-full rounded-xl; }
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee { animation: marquee 40s linear infinite; }
+.marquee:hover { animation-play-state: paused; }

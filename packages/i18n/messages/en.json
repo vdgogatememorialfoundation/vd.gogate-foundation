@@ -49,7 +49,7 @@
   },
   "home": {
     "heroTitle": "Vaidya Gogate Memorial Foundation",
-    "heroSubtitle": "Seminars, fellowships, publications and clinical care — one foundation, one platform.",
+    "heroSubtitle": "Seminars, publications and Ayurvedic clinical care — one foundation, one platform.",
     "exploreEvents": "Explore events",
     "visitShop": "Visit the shop",
     "sections": {
@@ -68,8 +68,13 @@
     "ourDoctors": "Our doctors",
     "upcomingEvents": "Upcoming events",
     "eventsComing": "Event schedules will be published here. Meanwhile, follow our announcements.",
-    "aboutTeaser": "Carrying forward the legacy of Vaidya Gogate — Ayurvedic clinical care, scientific seminars, fellowships for young doctors, and publications for practitioners and families.",
-    "aboutCta": "About the foundation"
+    "aboutTeaser": "Carrying forward the legacy of Vaidya Gogate — Ayurvedic clinical care, scientific seminars, and publications for practitioners and families.",
+    "aboutCta": "About the foundation",
+    "stats": {
+      "generations": "Generations",
+      "articles": "Articles",
+      "doctors": "Doctors"
+    }
   },
   "auth": {
     "loginTitle": "Sign in to your account",
@@ -123,7 +128,9 @@
     "payments": "Payments & Refunds Policy"
   },
   "footer": {
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "quickLinks": "Explore",
+    "policies": "Policies"
   },
   "articles": {
     "title": "Articles",

@@ -17,7 +17,7 @@ export async function AnnouncementTicker({ locale }: { locale: string }) {
     </span>
   );
   return (
-    <div className="border-b border-brand-800 bg-brand-900 text-brand-50" role="marquee" aria-live="polite">
+    <div className="border-b border-brand-800 bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 text-brand-50" role="marquee" aria-live="polite">
       <div className="mx-auto flex max-w-6xl items-center">
         <span className="flex shrink-0 items-center gap-1 bg-brand-800 px-3 py-2 text-xs font-semibold uppercase tracking-wide"><Megaphone className="h-3.5 w-3.5" /></span>
         <div className="flex-1 overflow-hidden py-2">

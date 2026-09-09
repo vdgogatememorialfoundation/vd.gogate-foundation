@@ -3,7 +3,7 @@ import { prisma } from "@vgmf/db";
 import { routing } from "@/i18n/routing";
 
 const base = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/$/, "");
-const STATIC = ["", "/articles", "/notices", "/about", "/clinic", "/events", "/fellowship", "/shop", "/contact"];
+const STATIC = ["", "/articles", "/notices", "/about", "/clinic", "/events", "/shop", "/contact"];
 
 export const dynamic = "force-dynamic";
 

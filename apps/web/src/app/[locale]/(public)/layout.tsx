@@ -9,7 +9,7 @@ export default async function PublicLayout({ children, params }: { children: Rea
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <AnnouncementTicker locale={locale} />
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10">{children}</main>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:py-12">{children}</main>
       <SiteFooter />
     </div>
   );

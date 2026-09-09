@@ -3,6 +3,7 @@
 //   rbac.prisma      -> roles, permissions, scoped assignments
 //   cms.prisma       -> site settings, integrations, pages
 //   audit.prisma     -> immutable activity timeline
+//   content.prisma   -> articles, notices, media, clinics, doctors, generations, contact
 // Each domain is introduced by its own migration under prisma/migrations.
 
 generator client {

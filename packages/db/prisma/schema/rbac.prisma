@@ -1,0 +1,73 @@
+// ---------------------------------------------------------------------------
+// Domain: RBAC (migration 002)
+// User -> Roles -> Permissions -> Module -> Action -> Scope
+// A permission is (module, action). A UserRole may be scoped to one entity
+// (e.g. scopeType=EVENT, scopeId=<event uuid>) or global (scopeType=null).
+// ---------------------------------------------------------------------------
+
+model Role {
+  id          String  @id @default(uuid()) @db.Uuid
+  key         String  @unique @db.VarChar(64) // super_admin, admin, staff, volunteer, judge, reviewer, trustee, applicant
+  name        String  @db.VarChar(120)
+  description String?
+  isSystem    Boolean @default(false) // system roles cannot be deleted
+  userKind    UserKind @default(STAFF)
+  sortOrder   Int     @default(0)
+
+  permissions RolePermission[]
+  userRoles   UserRole[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String  @id @default(uuid()) @db.Uuid
+  module      String  @db.VarChar(64) // events, applications, payments, users, ...
+  action      String  @db.VarChar(64) // view, create, edit, delete, approve, refund, checkin, export
+  description String?
+
+  roles RolePermission[]
+
+  @@unique([module, action])
+  @@index([module])
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String     @db.Uuid
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permissionId String     @db.Uuid
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  grantedAt    DateTime   @default(now())
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+enum ScopeType {
+  EVENT
+  COMPETITION
+  FELLOWSHIP_CYCLE
+  CLINIC
+}
+
+model UserRole {
+  id        String     @id @default(uuid()) @db.Uuid
+  userId    String     @db.Uuid
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roleId    String     @db.Uuid
+  role      Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  scopeType ScopeType?
+  scopeId   String?    @db.Uuid
+  grantedById String?  @db.Uuid
+  grantedAt DateTime   @default(now())
+  expiresAt DateTime?
+
+  @@unique([userId, roleId, scopeType, scopeId])
+  @@index([userId])
+  @@index([scopeType, scopeId])
+  @@map("user_roles")
+}

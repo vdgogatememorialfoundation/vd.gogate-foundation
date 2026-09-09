@@ -1,0 +1,21 @@
+// Root Prisma config. Domain models live in sibling files (one per domain):
+//   identity.prisma  -> users, sessions, OTP, verification
+//   rbac.prisma      -> roles, permissions, scoped assignments
+//   cms.prisma       -> site settings, integrations, pages
+//   audit.prisma     -> immutable activity timeline
+// Each domain is introduced by its own migration under prisma/migrations.
+
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Locale {
+  en
+  mr
+  hi
+}

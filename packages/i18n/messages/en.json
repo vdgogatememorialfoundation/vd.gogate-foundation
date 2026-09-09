@@ -1,0 +1,101 @@
+{
+  "common": {
+    "siteName": "Vaidya Gogate Memorial Foundation",
+    "tagline": "Serving health, education and community since generations",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "createAccount": "Create account",
+    "myAccount": "My account",
+    "admin": "Admin",
+    "language": "Language",
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "search": "Search",
+    "actions": "Actions",
+    "status": "Status",
+    "comingSoon": "Coming soon"
+  },
+  "nav": {
+    "home": "Home",
+    "articles": "Articles",
+    "events": "Events",
+    "shop": "Shop",
+    "fellowship": "Fellowship",
+    "clinic": "Our Clinic",
+    "about": "About us",
+    "contact": "Contact us"
+  },
+  "home": {
+    "heroTitle": "Vaidya Gogate Memorial Foundation",
+    "heroSubtitle": "Seminars, fellowships, publications and clinical care — one foundation, one platform.",
+    "exploreEvents": "Explore events",
+    "visitShop": "Visit the shop",
+    "sections": {
+      "events": "Events & Seminars",
+      "eventsDesc": "National seminars, workshops and competitions for doctors and the public.",
+      "fellowship": "Fellowship",
+      "fellowshipDesc": "Applications, reviews and trustee decisions in one place.",
+      "shop": "Publications",
+      "shopDesc": "Books and study material — ship to your door or collect from our clinic.",
+      "clinic": "Our Clinic",
+      "clinicDesc": "Doctor profiles, timings and appointments."
+    }
+  },
+  "auth": {
+    "loginTitle": "Sign in to your account",
+    "identifier": "Email or 12-digit User ID",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "registerTitle": "Create your account",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Mobile number",
+    "verifyTitle": "Verify your email",
+    "verifyHelp": "We sent a 6-digit code to {email}. Enter it below to activate your account.",
+    "code": "Verification code",
+    "resendCode": "Resend code",
+    "setPasswordTitle": "Set your password",
+    "setPasswordHelp": "Choose a password of at least 8 characters with letters and numbers.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "changeTempPassword": "You signed in with a temporary password. Please set a new one.",
+    "yourUserId": "Your User ID is {id}. Keep it safe — you can sign in with it or your email.",
+    "resetTitle": "Reset your password",
+    "resetHelp": "Enter your email or User ID and we will send a verification code.",
+    "errors": {
+      "invalid": "Invalid login id or password",
+      "locked": "Account temporarily locked. Try again in a few minutes.",
+      "inactive": "This account is not active. Contact support.",
+      "emailTaken": "An account with this email already exists",
+      "otpInvalid": "Incorrect code",
+      "otpExpired": "Code expired. Request a new one.",
+      "passwordMismatch": "Passwords do not match"
+    }
+  },
+  "account": {
+    "title": "My account",
+    "welcome": "Welcome, {name}",
+    "userId": "User ID",
+    "email": "Email",
+    "status": "Account status",
+    "changePassword": "Change password",
+    "applications": "My applications",
+    "orders": "My orders",
+    "tickets": "My tickets"
+  },
+  "legal": {
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "shipping": "Shipping Policy",
+    "payments": "Payments & Refunds Policy"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@vgmf/integrations",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./mail": "./src/mail/index.ts",
+    "./payments": "./src/payments/index.ts",
+    "./shipping": "./src/shipping/index.ts",
+    "./crypto": "./src/crypto/index.ts"
+  },
+  "scripts": {
+    "build": "echo 'source package'",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vgmf/db": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "eslint": "^9.39.5",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0",
+    "vitest": "^3.2.7"
+  }
+}

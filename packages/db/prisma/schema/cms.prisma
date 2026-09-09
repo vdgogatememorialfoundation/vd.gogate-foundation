@@ -1,0 +1,112 @@
+// ---------------------------------------------------------------------------
+// Domain: CMS & platform settings (migration 003)
+// Phase 0 ships the skeleton needed by the admin shell: key/value site
+// settings, encrypted integration credentials, translatable pages, and
+// legal documents. Articles, notices, galleries, clinics arrive in Phase 1.
+// ---------------------------------------------------------------------------
+
+model SiteSetting {
+  key       String   @id @db.VarChar(120) // e.g. branding.site_name, branding.logo_url
+  value     Json
+  updatedById String? @db.Uuid
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+enum IntegrationCategory {
+  PAYMENT
+  SHIPPING
+  HYPERLOCAL
+  EMAIL
+  SMS
+  WHATSAPP
+  MAPS
+  STORAGE
+  AI
+  ANALYTICS
+  OTHER
+}
+
+model IntegrationCredential {
+  id          String              @id @default(uuid()) @db.Uuid
+  category    IntegrationCategory
+  provider    String              @db.VarChar(64) // razorpay, shiprocket, zeptomail, ...
+  label       String?             @db.VarChar(120)
+  // AES-256-GCM encrypted JSON of provider-specific keys. Never returned to clients in plain text.
+  secretsEnc  String
+  config      Json                @default("{}") // non-secret config (mode, sender id, webhook url)
+  enabled     Boolean             @default(false)
+  isDefault   Boolean             @default(false) // default provider for the category
+  lastTestedAt DateTime?
+  lastTestOk   Boolean?
+  updatedById String?             @db.Uuid
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@unique([category, provider])
+  @@map("integration_credentials")
+}
+
+// Platform API keys allow external systems to call the platform API.
+model PlatformApiKey {
+  id         String    @id @default(uuid()) @db.Uuid
+  name       String    @db.VarChar(120)
+  prefix     String    @unique @db.VarChar(12) // visible identifier
+  keyHash    String
+  scopes     String[]  // permission strings module:action
+  lastUsedAt DateTime?
+  expiresAt  DateTime?
+  revokedAt  DateTime?
+  createdById String?  @db.Uuid
+  createdAt  DateTime  @default(now())
+
+  @@map("platform_api_keys")
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PageKind {
+  CUSTOM // admin-created page; rendered as a site page and as an app screen
+  LEGAL // terms, privacy, shipping policy, payments policy, refund policy
+  SYSTEM // home, about, contact — layout fixed, content editable
+}
+
+model Page {
+  id          String        @id @default(uuid()) @db.Uuid
+  slug        String        @unique @db.VarChar(160)
+  kind        PageKind      @default(CUSTOM)
+  status      PublishStatus @default(DRAFT)
+  showInNav   Boolean       @default(false)
+  showInApp   Boolean       @default(true)
+  navOrder    Int           @default(0)
+  publishedAt DateTime?
+  createdById String?       @db.Uuid
+  updatedById String?       @db.Uuid
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+
+  translations PageTranslation[]
+
+  @@index([status, kind])
+  @@map("pages")
+}
+
+model PageTranslation {
+  pageId          String @db.Uuid
+  page            Page   @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  locale          Locale
+  title           String @db.VarChar(200)
+  body            String // rich text (HTML) or block JSON serialized
+  metaTitle       String? @db.VarChar(200)
+  metaDescription String? @db.VarChar(320)
+  updatedAt       DateTime @updatedAt
+
+  @@id([pageId, locale])
+  @@map("page_translations")
+}

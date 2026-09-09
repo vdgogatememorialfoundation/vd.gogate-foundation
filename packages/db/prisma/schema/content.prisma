@@ -1,0 +1,264 @@
+// ---------------------------------------------------------------------------
+// Domain: Public site content (migration 005)
+// Articles, notices/banners, media library, clinics & doctors, family
+// generations gallery, contact inbox. All human-facing text is translatable
+// via *_translations rows keyed by Locale; `en` is the fallback.
+// ---------------------------------------------------------------------------
+
+model Media {
+  id           String   @id @default(uuid()) @db.Uuid
+  storage      String   @db.VarChar(32) // local | r2
+  key          String   @unique @db.VarChar(512) // storage object key
+  url          String   @db.VarChar(1024) // public URL
+  mimeType     String   @db.VarChar(120)
+  sizeBytes    Int
+  width        Int?
+  height       Int?
+  alt          String?  @db.VarChar(300)
+  folder       String   @default("general") @db.VarChar(64) // articles | notices | doctors | generations | branding | general
+  uploadedById String?  @db.Uuid
+  createdAt    DateTime @default(now())
+  deletedAt    DateTime?
+
+  articleCovers Article[]   @relation("ArticleCover")
+  notices       Notice[]
+  doctors       Doctor[]
+  generations   Generation[]
+  clinics       Clinic[]
+
+  @@index([folder, createdAt])
+  @@map("media")
+}
+
+model ArticleCategory {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique @db.VarChar(120)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  translations ArticleCategoryTranslation[]
+  articles     Article[]
+
+  @@map("article_categories")
+}
+
+model ArticleCategoryTranslation {
+  categoryId String          @db.Uuid
+  category   ArticleCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  locale     Locale
+  name       String          @db.VarChar(120)
+
+  @@id([categoryId, locale])
+  @@map("article_category_translations")
+}
+
+model Article {
+  id           String        @id @default(uuid()) @db.Uuid
+  slug         String        @unique @db.VarChar(200)
+  status       PublishStatus @default(DRAFT)
+  featured     Boolean       @default(false)
+  authorName   String?       @db.VarChar(160)
+  categoryId   String?       @db.Uuid
+  category     ArticleCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  coverMediaId String?       @db.Uuid
+  coverMedia   Media?        @relation("ArticleCover", fields: [coverMediaId], references: [id], onDelete: SetNull)
+  publishedAt  DateTime?
+  viewCount    Int           @default(0)
+  createdById  String?       @db.Uuid
+  updatedById  String?       @db.Uuid
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+
+  translations ArticleTranslation[]
+
+  @@index([status, publishedAt])
+  @@map("articles")
+}
+
+model ArticleTranslation {
+  articleId       String  @db.Uuid
+  article         Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  locale          Locale
+  title           String  @db.VarChar(240)
+  excerpt         String? @db.VarChar(600)
+  body            String // sanitized HTML
+  metaTitle       String? @db.VarChar(200)
+  metaDescription String? @db.VarChar(320)
+  updatedAt       DateTime @updatedAt
+
+  @@id([articleId, locale])
+  @@map("article_translations")
+}
+
+enum NoticeKind {
+  ANNOUNCEMENT // flashing ticker on the site
+  NOTICE // notice board entry
+  BANNER // homepage hero slide
+  FLYER // poster / flyer image
+}
+
+model Notice {
+  id          String        @id @default(uuid()) @db.Uuid
+  kind        NoticeKind    @default(NOTICE)
+  status      PublishStatus @default(DRAFT)
+  pinned      Boolean       @default(false)
+  sortOrder   Int           @default(0)
+  linkUrl     String?       @db.VarChar(1024)
+  imageId     String?       @db.Uuid
+  image       Media?        @relation(fields: [imageId], references: [id], onDelete: SetNull)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  createdById String?       @db.Uuid
+  updatedById String?       @db.Uuid
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+
+  translations NoticeTranslation[]
+
+  @@index([kind, status, startsAt, endsAt])
+  @@map("notices")
+}
+
+model NoticeTranslation {
+  noticeId String @db.Uuid
+  notice   Notice @relation(fields: [noticeId], references: [id], onDelete: Cascade)
+  locale   Locale
+  title    String @db.VarChar(240)
+  body     String? // short HTML
+
+  @@id([noticeId, locale])
+  @@map("notice_translations")
+}
+
+model Clinic {
+  id          String   @id @default(uuid()) @db.Uuid
+  slug        String   @unique @db.VarChar(120)
+  isPrimary   Boolean  @default(false) // default pickup location for shop orders
+  phone       String?  @db.VarChar(20)
+  whatsapp    String?  @db.VarChar(20)
+  email       String?  @db.VarChar(255)
+  addressLine String?  @db.VarChar(400)
+  city        String?  @db.VarChar(120)
+  state       String?  @db.VarChar(120)
+  pincode     String?  @db.VarChar(10)
+  latitude    Decimal? @db.Decimal(10, 7)
+  longitude   Decimal? @db.Decimal(10, 7)
+  mapsUrl     String?  @db.VarChar(1024)
+  imageId     String?  @db.Uuid
+  image       Media?   @relation(fields: [imageId], references: [id], onDelete: SetNull)
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  translations ClinicTranslation[]
+  doctors      Doctor[]
+
+  @@map("clinics")
+}
+
+model ClinicTranslation {
+  clinicId String @db.Uuid
+  clinic   Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  locale   Locale
+  name     String  @db.VarChar(200)
+  timings  String? @db.VarChar(400) // free text, e.g. "Mon–Sat 10:00–13:00, 17:00–20:00"
+  about    String? // HTML
+
+  @@id([clinicId, locale])
+  @@map("clinic_translations")
+}
+
+model Doctor {
+  id          String   @id @default(uuid()) @db.Uuid
+  slug        String   @unique @db.VarChar(120)
+  clinicId    String?  @db.Uuid
+  clinic      Clinic?  @relation(fields: [clinicId], references: [id], onDelete: SetNull)
+  photoId     String?  @db.Uuid
+  photo       Media?   @relation(fields: [photoId], references: [id], onDelete: SetNull)
+  registrationNo String? @db.VarChar(60)
+  email       String?  @db.VarChar(255)
+  phone       String?  @db.VarChar(20)
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  translations DoctorTranslation[]
+
+  @@map("doctors")
+}
+
+model DoctorTranslation {
+  doctorId       String @db.Uuid
+  doctor         Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  locale         Locale
+  name           String  @db.VarChar(200)
+  qualifications String? @db.VarChar(300)
+  specialities   String? @db.VarChar(300)
+  timings        String? @db.VarChar(400)
+  bio            String? // HTML
+
+  @@id([doctorId, locale])
+  @@map("doctor_translations")
+}
+
+// "Our generations" — family lineage gallery on the About page.
+model Generation {
+  id        String   @id @default(uuid()) @db.Uuid
+  sortOrder Int      @default(0)
+  yearFrom  Int?
+  yearTo    Int?
+  photoId   String?  @db.Uuid
+  photo     Media?   @relation(fields: [photoId], references: [id], onDelete: SetNull)
+  status    PublishStatus @default(PUBLISHED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  translations GenerationTranslation[]
+
+  @@map("generations")
+}
+
+model GenerationTranslation {
+  generationId String     @db.Uuid
+  generation   Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
+  locale       Locale
+  name         String  @db.VarChar(200)
+  title        String? @db.VarChar(200) // e.g. "Second generation"
+  bio          String? // HTML
+
+  @@id([generationId, locale])
+  @@map("generation_translations")
+}
+
+enum ContactStatus {
+  NEW
+  READ
+  REPLIED
+  SPAM
+}
+
+model ContactMessage {
+  id        String        @id @default(uuid()) @db.Uuid
+  name      String        @db.VarChar(160)
+  email     String        @db.VarChar(255)
+  phone     String?       @db.VarChar(20)
+  subject   String?       @db.VarChar(200)
+  message   String
+  locale    Locale        @default(en)
+  status    ContactStatus @default(NEW)
+  userId    String?       @db.Uuid
+  ip        String?       @db.VarChar(64)
+  handledById String?     @db.Uuid
+  handledAt DateTime?
+  createdAt DateTime      @default(now())
+
+  @@index([status, createdAt])
+  @@map("contact_messages")
+}
